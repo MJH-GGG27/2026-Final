@@ -20,7 +20,7 @@ public class PlayerScript : MonoBehaviour
     
     //My personal stats
     public float Speed = 5;
-    public float JumpPower = 10;
+    public float JumpPower = 3;
     public float Gravity = 3;
     
     //Variables I use to track my state
@@ -72,13 +72,15 @@ public class PlayerScript : MonoBehaviour
             //If I hit left, mark that I'm facing left
             FacingLeft = true;
         }
-        else
-        {  //If I hit neither, come to a stop
-            vel.x = 0;
-        }
 
-        //If I hit Z and can jump, jump
-        if (Keyboard.current.zKey.wasPressedThisFrame && CanJump())
+        // variable that tracsks if player is touching ground
+        // when jump, change variable to false
+        // if variable is false, change gravity to half,
+        // once player collision enters2D with the ground change variable to true
+        // if variable is true, set gravity back to 1
+
+        //If I hit up, float
+        if (Keyboard.current.upArrowKey.isPressed)
         { 
             vel.y = JumpPower;
             //Emit 5 dust cloud particles
@@ -101,13 +103,6 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    //I use this function to track if I can jump or not
-    //Right now it's very simple, but has a secret edge case bug
-    //Can you find the bug?
-    public bool CanJump()
-    {
-        return OnGround;
-    }
 
     private void OnCollisionEnter2D(Collision2D other)
     {  
